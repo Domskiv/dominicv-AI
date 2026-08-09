@@ -3,11 +3,19 @@ param(
 )
 
 $CompanionRoot = $PSScriptRoot
+
+# Strip trailing >, spaces, quotes, or slashes that sneak in from copy-pasting a PS prompt
+$ProjectPath = $ProjectPath.TrimEnd('>', ' ', '\', '/', '"', "'")
+
+# Create the project directory if it doesn't exist
+if (-not (Test-Path $ProjectPath)) {
+    New-Item -ItemType Directory -Force -Path $ProjectPath | Out-Null
+}
+
+$ProjectPath = (Resolve-Path $ProjectPath).Path
 $SkillsTarget = "$env:USERPROFILE\.claude\skills"
 $AgentsTarget = "$ProjectPath\.claude\agents"
 $CompanionDir = "$ProjectPath\.companion"
-
-$ProjectPath = (Resolve-Path $ProjectPath).Path
 
 Write-Host ""
 Write-Host "Sleepy Dev Companion"
