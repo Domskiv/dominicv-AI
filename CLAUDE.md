@@ -4,7 +4,7 @@ This is the companion system — not a project. It contains the agents and skill
 
 ## What this is
 
-- `agents/` — 4 focused agents, installed per-project at `.claude/agents/`
+- `agents/` — 5 focused agents, installed per-project at `.claude/agents/`
 - `skills/` — 5 skills, installed globally at `~/.claude/skills/`
 - `templates/` — project template files
 - `install.ps1` — wires everything into a target project
@@ -33,8 +33,9 @@ Defaults to the current directory if `-ProjectPath` is omitted.
 |---|---|
 | `engineer` | Multi-file implementation across the stack |
 | `designer` | UI and design work with anti-slop enforcement |
-| `challenger` | Adversarial code review and security audit |
+| `challenger` | Adversarial code review — bugs, overengineering, correctness |
 | `navigator` | New project architecture and major structural decisions |
+| `security` | Deep security audit — auth, injection, data exposure, OWASP Top 10 |
 
 ## Commit messages
 

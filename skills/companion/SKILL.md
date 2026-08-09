@@ -83,6 +83,7 @@ State the concern, then ask: proceed anyway, or adjust?
 | `build` | new feature, enhancement, new endpoint |
 | `design` | UI/visual work, component redesign, landing page |
 | `review` | "is this good", "check this", adversarial pass |
+| `security` | "security review", "is this safe", "check for vulnerabilities", anything touching auth/payments/user data |
 | `architecture` | new project, greenfield, major structural decision |
 
 **Scale:**
@@ -106,6 +107,7 @@ State the concern, then ask: proceed anyway, or adjust?
 | `build` + `agent` | Spawn `engineer`. Wait. Verify. |
 | `design` | Spawn `designer`. |
 | `review` | Spawn `challenger`. |
+| `security` | Spawn `security`. |
 | `architecture` | Spawn `navigator`. |
 
 **Never spawn an agent for work you can do in under 10 minutes.**
@@ -153,6 +155,14 @@ Context: [what changed and why, in one sentence]
 Changed files: [list]
 Risk level: [low / medium / high]
 Focus: [security / correctness / overengineering / all]
+```
+
+When spawning `security`:
+```
+Context: [what this code does and why it needs a security review]
+Files to audit: [list]
+Risk areas: [auth / payments / user data / public API / all]
+Stack: [from .companion/stack.md]
 ```
 
 When spawning `navigator`:
