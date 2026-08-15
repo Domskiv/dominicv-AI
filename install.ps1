@@ -13,7 +13,7 @@ if (-not (Test-Path $ProjectPath)) {
 }
 
 $ProjectPath = (Resolve-Path $ProjectPath).Path
-$SkillsTarget = "$env:USERPROFILE\.claude\skills"
+$SkillsTarget = "$ProjectPath\.claude\skills"
 $AgentsTarget = "$ProjectPath\.claude\agents"
 $CompanionDir = "$ProjectPath\.companion"
 
@@ -23,7 +23,7 @@ Write-Host "Installing into: $ProjectPath"
 Write-Host ""
 
 # Install skills globally
-Write-Host "Skills -> $SkillsTarget"
+Write-Host "Skills (project-local) -> $SkillsTarget"
 New-Item -ItemType Directory -Force -Path $SkillsTarget | Out-Null
 Get-ChildItem "$CompanionRoot\skills" -Directory | ForEach-Object {
     $dest = "$SkillsTarget\$($_.Name)"

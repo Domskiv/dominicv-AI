@@ -56,22 +56,7 @@ Key directories:
 
 ---
 
-## Step 2 — Challenge
-
-Before starting non-trivial work, spend 30 seconds asking:
-
-- Is the request clear enough to implement correctly? If not — ask one focused question.
-- Is there an obviously better approach? If so — say it before building the wrong thing.
-- Will this cause problems later (performance, security, tech debt)? Flag it.
-- Is this feature actually necessary? If it smells like YAGNI — say so.
-
-State the concern, then ask: proceed anyway, or adjust?
-
-**Skip the challenge for:** trivial changes, bug fixes with obvious root cause, questions.
-
----
-
-## Step 3 — Classify
+## Step 2 — Classify
 
 **Type:**
 
@@ -86,36 +71,29 @@ State the concern, then ask: proceed anyway, or adjust?
 | `security` | "security review", "is this safe", "check for vulnerabilities", anything touching auth/payments/user data |
 | `architecture` | new project, greenfield, major structural decision |
 
-**Scale:**
-
-| Scale | Signal |
-|---|---|
-| `inline` | 1-2 files, clear scope, existing patterns |
-| `agent` | 3+ files, new patterns, benefits from context isolation |
-
 ---
 
-## Step 4 — Act
+## Step 3 — Act
 
-| Type + Scale | Action |
+Challenger is a **mandatory gate** before any non-trivial work. No build, bug, design, or architecture task starts until challenger has interrogated the user and agreed on the spec.
+
+| Type | Action |
 |---|---|
 | `question` | Answer directly. No agents. |
 | `trivial` | Fix inline. Run one verify command. |
-| `bug` (obvious) | Fix inline. Verify. |
-| `bug` (complex) | Run `/diagnose`. |
-| `build` + `inline` | Implement directly. Verify. |
-| `build` + `agent` | Spawn `engineer`. Wait. Verify. |
-| `design` | Spawn `designer`. |
-| `review` | Spawn `challenger`. |
+| `bug` | **Spawn `challenger` (pre-build)** → spawn `engineer` with agreed spec. |
+| `build` | **Spawn `challenger` (pre-build)** → spawn `engineer` with agreed spec. |
+| `design` | **Spawn `challenger` (pre-build)** → spawn `designer` for spec → spawn `engineer`. |
+| `review` | Spawn `challenger` (post-build review). |
 | `security` | Spawn `security`. |
-| `architecture` | Spawn `navigator`. |
+| `architecture` | **Spawn `challenger` (pre-build)** → spawn `navigator`. |
 
-**Never spawn an agent for work you can do in under 10 minutes.**
-**Never implement 3+ file changes inline — spawn `engineer` and keep context clean.**
+**Challenger always runs first. Nothing gets built until challenger signs off.**
+**Engineer is the only agent that writes code — no exceptions.**
 
 ---
 
-## Step 5 — Verify
+## Step 4 — Verify
 
 After every change:
 1. Run the relevant test or smoke command from `.companion/stack.md`
@@ -147,10 +125,35 @@ Stack: [framework]
 Task: [design request]
 Existing components: [paths if any]
 Brief: [vibe, audience, brand constraints, references]
+
+Produce a design spec only. Do not write code. Save spec to .companion/design-brief.md.
 ```
 
-When spawning `challenger`:
+After `designer` returns, spawn `engineer` with:
 ```
+Stack: [from .companion/stack.md]
+Task type: build
+Task: Implement the design spec at .companion/design-brief.md
+Relevant files: .companion/design-brief.md + [any existing components]
+Context: Follow the spec exactly. Engineer owns all code — do not deviate from the design decisions.
+```
+
+When spawning `challenger` (pre-build — always first for bug/build/design/architecture):
+```
+Mode: pre-build
+Task type: [bug / build / design / architecture]
+Request: [exactly what the user asked for, verbatim]
+Stack: [from .companion/stack.md]
+Relevant files: [any files already known to be involved]
+
+Interrogate the user on intent and design decisions before any work starts.
+Phase 1 only — there is no code to review yet.
+When done, output a one-paragraph agreed spec summary and hand control back.
+```
+
+When spawning `challenger` (post-build review):
+```
+Mode: post-build
 Context: [what changed and why, in one sentence]
 Changed files: [list]
 Risk level: [low / medium / high]

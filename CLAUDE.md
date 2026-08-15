@@ -5,7 +5,7 @@ This is the companion system — not a project. It contains the agents and skill
 ## What this is
 
 - `agents/` — 5 focused agents, installed per-project at `.claude/agents/`
-- `skills/` — 5 skills, installed globally at `~/.claude/skills/`
+- `skills/` — 5 skills, installed per-project at `.claude/skills/`
 - `templates/` — project template files
 - `install.ps1` — wires everything into a target project
 
